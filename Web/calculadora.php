@@ -1,20 +1,37 @@
 <?php session_start(); ?>
-<?php 
+<?php
 $conn = include "conexion/conexion.php";
 
-if(isset($_GET['fecha'])){
-$fecha_consultar = $_GET['fecha'];
-}else{
-date_default_timezone_set('US/Central');  
-$fecha_consultar = date("Y-m-d");
+if (isset($_GET['fecha'])) {
+    $fecha_consultar = $_GET['fecha'];
+} else {
+    date_default_timezone_set('US/Central');
+    $fecha_consultar = date("Y-m-d");
 }
 
 $nahual = include 'backend/buscar/conseguir_nahual_nombre.php';
 $energia = include 'backend/buscar/conseguir_energia_numero.php';
 $haab = include 'backend/buscar/conseguir_uinal_nombre.php';
 $cuenta_larga = include 'backend/buscar/conseguir_fecha_cuenta_larga.php';
-$cholquij = $nahual." ". strval($energia);
+$cholquij = $nahual . " " . strval($energia);
 
+//variables necesarias para obtener las imagenes de los numeros
+$baktun;
+$katun;
+$tun;
+$uinall;
+$kinn;
+
+
+// Verificar si $cuenta_larga está definido
+if (isset($cuenta_larga)) {
+    $desgolce = explode('.', $cuenta_larga);
+    $baktun = $desgolce[0];
+    $katun = $desgolce[1];
+    $tun = $desgolce[2];
+    $uinall = $desgolce[3];
+    $kinn = $desgolce[4];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,18 +46,17 @@ $cholquij = $nahual." ". strval($energia);
 </head>
 
 <body>
-
     <?php include "NavBar.php" ?>
     <div>
         <section id="inicio">
             <div id="inicioContainer" class="inicio-container">
-
                 <div id='formulario'>
                     <h1>Calculadora</h1>
                     <form action="#" method="GET">
                         <div class="mb-1">
                             <label for="fecha" class="form-label">Fecha</label>
-                            <input type="date" class="form-control" name="fecha" id="fecha" value="<?php echo isset($fecha_consultar) ? $fecha_consultar : ''; ?>" >
+                            <input type="date" class="form-control" name="fecha" id="fecha"
+                                value="<?php echo isset($fecha_consultar) ? $fecha_consultar : ''; ?>">
                         </div>
                         <button type="submit" class="btn btn-get-started"><i class="far fa-clock"></i> Calcular</button>
                     </form>
@@ -57,7 +73,7 @@ $cholquij = $nahual." ". strval($energia);
                             <tbody>
                                 <tr>
                                     <th scope="row">Calendario Haab</th>
-                                    <td ><?php echo isset($haab) ? $haab : ''; ?></td>
+                                    <td><?php echo isset($haab) ? $haab : ''; ?></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Calendario Cholquij</th>
@@ -71,15 +87,95 @@ $cholquij = $nahual." ". strval($energia);
                         </table>
                     </div>
                 </div>
+                <div id='formulario2'>
+                    <h1>Cuenta Larga <?php echo isset($cuenta_larga) ? $cuenta_larga : ''; ?></h1>
+                    <div class="simbolos_cuenta_div">
+                        <div class="simbolos_div">
+                            <div class="parejas_div">
+                                <div class="cuenta_item">
+                                    <img src="./img/cuenta_larga/intro.png" class="img_intro">
+                                </div>
+                            </div>
+                            <div class="parejas_div">
+                                <div class="cuenta_item">
+                                    <?php
+                                    // Verificar si $cuenta_larga está definido y no es igual a '0.0'
+                                    if (isset($baktun)) {
+                                        // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
+                                        $ruta_imagen = "./img/numeros_mayas/{$baktun}.svg";
+                                        // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
+                                        echo '<img src="' . $ruta_imagen . '" class="img_num">';
+                                    }
+                                    ?>
+                                    <img src="./img/cuenta_larga/Baktun.png" class="img_numeral">
+                                </div>
+                                <div class="cuenta_item">
+                                    <?php
+                                    // Verificar si $cuenta_larga está definido y no es igual a '0.0'
+                                    if (isset($katun)) {
+                                        // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
+                                        $ruta_imagen = "./img/numeros_mayas/{$katun}.svg";
+                                        // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
+                                        echo '<img src="' . $ruta_imagen . '" class="img_num">';
+                                    }
+                                    ?>
+                                    <img src="./img/cuenta_larga/Katun.png" class="img_numeral">
+                                </div>
+                            </div>
+                            <div class="parejas_div">
+                                <div class="cuenta_item">
+                                    <?php
+                                    // Verificar si $cuenta_larga está definido y no es igual a '0.0'
+                                    if (isset($tun)) {
+                                        // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
+                                        $ruta_imagen = "./img/numeros_mayas/{$tun}.svg";
+                                        // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
+                                        echo '<img src="' . $ruta_imagen . '" class="img_num">';
+                                    }
+                                    ?>
+                                    <img src="./img/cuenta_larga/Tun.png" class="img_numeral">
+                                </div>
+                                <div class="cuenta_item">
+                                    <?php
+                                    // Verificar si $cuenta_larga está definido y no es igual a '0.0'
+                                    if (isset($uinall)) {
+                                        // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
+                                        $ruta_imagen = "./img/numeros_mayas/{$uinall}.svg";
+                                        // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
+                                        echo '<img src="' . $ruta_imagen . '" class="img_num">';
+                                    }
+                                    ?>
+                                    <img src="./img/cuenta_larga/Uinal.png" class="img_numeral">
+                                </div>
+                            </div>
+                            <div class="parejas_div">
+                                <div class="cuenta_item">
+                                    <?php
+                                    // Verificar si $cuenta_larga está definido y no es igual a '0.0'
+                                    if (isset($kinn)) {
+                                        // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
+                                        $ruta_imagen = "./img/numeros_mayas/{$kinn}.svg";
+                                        // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
+                                        echo '<img src="' . $ruta_imagen . '" class="img_num">';
+                                    }
+                                    ?>
+                                    <img src="./img/cuenta_larga/Kin.png" class="img_numeral">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cuenta">
+                        
+                        </div>
+                    </div>
+                </div>
 
             </div>
-    </div>
-    </section>
-    </div>
+
+        </section>
 
 
-    <?php include "blocks/bloquesJs1.html" ?>
-
+        <?php include "blocks/bloquesJs1.html" ?>
 </body>
 
 </html>

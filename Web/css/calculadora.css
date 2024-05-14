@@ -1,10 +1,67 @@
-
 #formulario {
     background: rgba(63, 64, 66, 0.7);
     transition: 0.5s;
     width: 50%;
 }
-#formulario h1{
+
+#formulario2 {
+    background: rgba(220, 226, 232, 0.7);
+    transition: 0.5s;
+    width: 50%;
+}
+
+.simbolos_cuenta_div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.simbolos_div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.img_num {
+    width: 64px;
+    height: 64px;
+}
+
+.img_numeral {
+    width: 90px;
+    height: 90px;
+}
+
+.img_intro {
+    width: 200px;
+    height: 200px;
+}
+
+.parejas_div {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.cuenta_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.inicio-container {
+    padding: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+#formulario h1 {
     margin: 30px;
     padding: 0;
 }
@@ -15,13 +72,13 @@
 }
 
 
-.form-control{
+.form-control {
     width: 85%;
     font-size: 18px;
     margin: auto;
 }
 
-#tabla{
+#tabla {
     text-align: left;
 }
 
@@ -36,35 +93,49 @@
     line-height: 56px;
     text-transform: uppercase;
     color: #fff;
-  }
-  
-  @media (max-width: 994px) {
+}
+
+#inicio {
+    padding-top: 1000px;
+}
+
+@media (max-width: 994px) {
     #inicio h1 {
-      font-size: 25px;
-      line-height: 36px;
-      margin: 10px;
-      
-     
+        font-size: 25px;
+        line-height: 36px;
+        margin: 10px;
+
+
     }
-    .form-control{
+
+    .form-control {
         font-size: 10px;
     }
 
-    .form-label{
+    .form-label {
         font-size: 15px;
     }
-    #formulario{
+
+    #formulario {
         width: 40%;
     }
-    
-  }
 
-.loginfixed{
+    .inicio-container {
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 20px;
+    }
+
+}
+
+.loginfixed {
     margin-top: 360px;
     transition: 0.5s;
 }
 
-@media (min-width: 994px){
+@media (min-width: 994px) {
     .loginfixed {
         margin-top: 75px;
     }
