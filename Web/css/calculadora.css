@@ -1,20 +1,70 @@
-#formulario {
+#calculadora {
+    padding-top: 20px;
+    border-radius: 25px;
     background: rgba(63, 64, 66, 0.7);
     transition: 0.5s;
-    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 45%;
+    /* Estilos para el relieve */
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    /* Sombra inferior */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    /* Borde ligero */
+    border-radius: 8px;
+    /* Bordes redondeados */
 }
-.cuenta{
+
+.formulario2 {
+    padding: 20px 10px;
+    transition: 0.5s;
+    width: 45%;
+    color: black;
+    /* Estilos para el relieve */
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    /* Sombra inferior */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    /* Borde ligero */
+    border-radius: 8px;
+    /* Bordes redondeados */
+}
+
+.separador {
+    border-top: 3px solid #d6d6d6;
+    /* Borde superior de 1px sólido con color #d6d6d6 */
+}
+
+
+.cuenta {
     font-size: 15px;
     text-align: left;
 }
-.conversion{
+
+.cuenta h2 {
+    font-family: "Open Sans", sans-serif;
+}
+
+
+
+.conversion {
     display: flex;
     flex-direction: column;
 }
-#formulario2 {
-    background: rgba(220, 226, 232, 0.7);
-    transition: 0.5s;
-    width: 50%;
+
+
+
+.formulario2 h1,
+#calculadora h1 {
+    color: #fff;
+    font-family: "Open Sans", sans-serif;
+    text-align: center;
+}
+
+.formulario2 h1 {
+    color: #2dc997;
 }
 
 .simbolos_cuenta_div {
@@ -61,16 +111,19 @@
     justify-content: center;
 }
 
-.inicio-container {
-    padding: 50px;
+.cuerpo-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    flex-direction: column;
+    gap: 50px;
+    padding: 50px;
 }
 
-#formulario h1 {
-    margin: 30px;
-    padding: 0;
+.parejas-seccion {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
 }
 
 .form-label {
@@ -80,39 +133,39 @@
 
 
 .form-control {
-    width: 85%;
+    width: 100%;
     font-size: 18px;
     margin: auto;
 }
 
+.formulario-larga-greg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
 #tabla {
     text-align: left;
+    width: 100%;
 }
 
-#inicio .btn-get-started {
-    margin-left: 25px;
-    margin-bottom: 25px;
-}
-
-#inicio h1 {
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 56px;
-    text-transform: uppercase;
-    color: #fff;
-}
-
-#inicio {
-    padding-top: 1000px;
-}
 
 @media (max-width: 994px) {
     #inicio h1 {
         font-size: 25px;
         line-height: 36px;
         margin: 10px;
-
-
     }
 
     .form-control {
@@ -123,17 +176,15 @@
         font-size: 15px;
     }
 
-    #formulario {
-        width: 40%;
+    #calculadora {
+        width: 100%;
     }
 
-    .inicio-container {
-        padding: 50px;
-        display: flex;
-        flex-direction: column;
-        flex-wrap: nowrap;
-        gap: 20px;
+    .formulario2 {
+        width: 100%;
     }
+
+
 
 }
 

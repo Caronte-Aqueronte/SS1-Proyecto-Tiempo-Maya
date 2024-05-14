@@ -22,26 +22,19 @@ $katun;
 $tun;
 $uinall;
 $kinn;
-
-$baktunDias;
-$katunDias;
-$tunDias;
-$uinallDias;
-$kinnDias;
+//este convertidor nos ayudara a convertir fechas gregorianas en cuentas largas
+$convertidor_fecha_larga;
+//este convertidor nos ayudara a convertir cuentas largas a fechas gregorianas
+$convertidor_larga_fecha;
+//aqui se guardan las multiplicaciones que se hacen para la primera cuenta larga
 $multiplicaciones;
 
 // Verificar si $cuenta_larga está definido
 if (isset($cuenta_larga)) {
-    $desgolce = explode('.', $cuenta_larga);
-    $baktun = $desgolce[0];
-    $katun = $desgolce[1];
-    $tun = $desgolce[2];
-    $uinall = $desgolce[3];
-    $kinn = $desgolce[4];
     //creamos una instancia del multiplicador
-    $multiplicador = new MultiplicadorConFormato($baktun, $katun, $tun, $uinall, $kinn);
+    $convertidor_fecha_larga = new MenjadorCuentaLarga($cuenta_larga);
     //realizar las multiplicaciones
-    $multiplicaciones = $multiplicador->realizarMultiplicaciones();
+    $multiplicaciones = $convertidor_fecha_larga->realizarMultiplicaciones();
 }
 ?>
 <!DOCTYPE html>
@@ -58,169 +51,214 @@ if (isset($cuenta_larga)) {
 
 <body>
     <?php include "NavBar.php" ?>
-    <div>
-        <section id="inicio">
-            <div id="inicioContainer" class="inicio-container">
-                <div id='formulario'>
-                    <h1>Calculadora</h1>
-                    <form action="#" method="GET">
-                        <div class="mb-1">
-                            <label for="fecha" class="form-label">Fecha</label>
-                            <input type="date" class="form-control" name="fecha" id="fecha"
-                                value="<?php echo isset($fecha_consultar) ? $fecha_consultar : ''; ?>">
-                        </div>
-                        <button type="submit" class="btn btn-get-started"><i class="far fa-clock"></i> Calcular</button>
-                    </form>
 
-                    <div id="tabla">
-                        <table class="table table-dark table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Calendario</th>
-                                    <th scope="col" style="width: 60%;">Fecha</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Calendario Haab</th>
-                                    <td><?php echo isset($haab) ? $haab : ''; ?></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Calendario Cholquij</th>
-                                    <td><?php echo isset($cholquij) ? $cholquij : ''; ?></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Cuenta Larga</th>
-                                    <td><?php echo isset($cuenta_larga) ? $cuenta_larga : ''; ?></td>
-                                </tr>
-                            </tbody>
-                        </table>
+    <section id="inicio">
+        <div id="inicioContainer" class="inicio-container">
+            <h1>CALCULADORA</h1>
+            <a href='#calculadora' class='btn-get-started'>Fecha Gregoriana a Cuenta larga</a>
+            <a href='#larga-fecha' class='btn-get-started'>Cuenta larga a Fecha Gregoriana</a>
+        </div>
+    </section>
+    <div class="cuerpo-container">
+        <div class="parejas-seccion">
+            <div id='calculadora'>
+                <h1>Elige una fecha</h1>
+                <form action="#" method="GET">
+                    <div class="mb-1">
+                        <input type="date" class="form-control" name="fecha" id="fecha"
+                            value="<?php echo isset($fecha_consultar) ? $fecha_consultar : ''; ?>">
                     </div>
-                </div>
-                <div id='formulario2'>
-                    <h1>Cuenta Larga <?php echo isset($cuenta_larga) ? $cuenta_larga : ''; ?></h1>
-                    <div class="simbolos_cuenta_div">
-                        <div class="simbolos_div">
-                            <div class="parejas_div">
-                                <div class="cuenta_item">
-                                    <img src="./img/cuenta_larga/intro.png" class="img_intro">
-                                </div>
-                            </div>
-                            <div class="parejas_div">
-                                <div class="cuenta_item">
-                                    <?php
-                                    // Verificar si $cuenta_larga está definido y no es igual a '0.0'
-                                    if (isset($baktun)) {
-                                        // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
-                                        $ruta_imagen = "./img/numeros_mayas/{$baktun}.svg";
-                                        // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
-                                        echo '<img src="' . $ruta_imagen . '" class="img_num">';
-                                    }
-                                    ?>
-                                    <img src="./img/cuenta_larga/Baktun.png" class="img_numeral">
-                                </div>
-                                <div class="cuenta_item">
-                                    <?php
-                                    // Verificar si $cuenta_larga está definido y no es igual a '0.0'
-                                    if (isset($katun)) {
-                                        // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
-                                        $ruta_imagen = "./img/numeros_mayas/{$katun}.svg";
-                                        // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
-                                        echo '<img src="' . $ruta_imagen . '" class="img_num">';
-                                    }
-                                    ?>
-                                    <img src="./img/cuenta_larga/Katun.png" class="img_numeral">
-                                </div>
-                            </div>
-                            <div class="parejas_div">
-                                <div class="cuenta_item">
-                                    <?php
-                                    // Verificar si $cuenta_larga está definido y no es igual a '0.0'
-                                    if (isset($tun)) {
-                                        // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
-                                        $ruta_imagen = "./img/numeros_mayas/{$tun}.svg";
-                                        // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
-                                        echo '<img src="' . $ruta_imagen . '" class="img_num">';
-                                    }
-                                    ?>
-                                    <img src="./img/cuenta_larga/Tun.png" class="img_numeral">
-                                </div>
-                                <div class="cuenta_item">
-                                    <?php
-                                    // Verificar si $cuenta_larga está definido y no es igual a '0.0'
-                                    if (isset($uinall)) {
-                                        // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
-                                        $ruta_imagen = "./img/numeros_mayas/{$uinall}.svg";
-                                        // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
-                                        echo '<img src="' . $ruta_imagen . '" class="img_num">';
-                                    }
-                                    ?>
-                                    <img src="./img/cuenta_larga/Uinal.png" class="img_numeral">
-                                </div>
-                            </div>
-                            <div class="parejas_div">
-                                <div class="cuenta_item">
-                                    <?php
-                                    // Verificar si $cuenta_larga está definido y no es igual a '0.0'
-                                    if (isset($kinn)) {
-                                        // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
-                                        $ruta_imagen = "./img/numeros_mayas/{$kinn}.svg";
-                                        // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
-                                        echo '<img src="' . $ruta_imagen . '" class="img_num">';
-                                    }
-                                    ?>
-                                    <img src="./img/cuenta_larga/Kin.png" class="img_numeral">
-                                </div>
-                            </div>
-                        </div>
+                    <button type="submit" class="btn btn-get-started"><i class="far fa-clock"></i> Calcular</button>
+                </form>
 
-                        <div class="cuenta">
-                            <div class="conversion">
-                                <?php
-                                if (isset($baktun)) {
-                                    echo '<h2>' . $baktun . ' baktún </h2>';
-                                    echo '<p>' . $baktun . ' * 144,000 días = ' . $multiplicaciones['batun'] . ' días</p>';
-                                } ?>
-                            </div>
-                            <div class="conversion">
-                                <?php
-                                if (isset($katun)) {
-                                    echo '<h2>' . $katun . ' katún </h2>';
-                                    echo '<p>' . $katun . ' * 7,200 días = ' . $multiplicaciones['kati'] . ' días</p>';
-                                } ?>
-                            </div>
-                            <div class="conversion">
-                                <?php
-                                if (isset($tun)) {
-                                    echo '<h2>' . $tun . ' tun </h2>';
-                                    echo '<p>' . $tun . ' * 360 días = ' . $multiplicaciones['tun'] . ' días</p>';
-                                } ?>
-                            </div>
-                            <div class="conversion">
-                                <?php
-                                   if (isset($uinall)) {
-                                    echo '<h2>' . $uinall . ' uinal </h2>';
-                                    echo '<p>' . $uinall . ' * 20 días = ' . $multiplicaciones['uinall'] . ' días</p>';
-                                } ?>
-                            </div>
-                            <div class="conversion">
-                                <?php
-                                 if (isset($kinn)) {
-                                    echo '<h2>' . $kinn . ' tun </h2>';
-                                    echo '<p>' . $kinn . ' * 1 día = ' . $multiplicaciones['kinn'] . ' días</p>';
-                                } ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div id="tabla">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Calendario</th>
+                                <th scope="col" style="width: 60%;">Fecha</th>
 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Calendario Haab</th>
+                                <td><?php echo isset($haab) ? $haab : ''; ?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Calendario Cholquij</th>
+                                <td><?php echo isset($cholquij) ? $cholquij : ''; ?></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Cuenta Larga</th>
+                                <td><?php echo isset($cuenta_larga) ? $cuenta_larga : ''; ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+            <div id='formulario2' class="formulario2">
+                <h1>Cuenta Larga <?php echo isset($cuenta_larga) ? $cuenta_larga : ''; ?></h1>
+                <div class="simbolos_cuenta_div">
+                    <div class="simbolos_div">
+                        <div class="parejas_div">
+                            <div class="cuenta_item">
+                                <img src="./img/cuenta_larga/intro.png" class="img_intro">
+                            </div>
+                        </div>
+                        <div class="parejas_div">
+                            <div class="cuenta_item">
+                                <?php
+                                // Verificar si $cuenta_larga está definido y no es igual a '0.0'
+                                if (isset($convertidor_fecha_larga)) {
+                                    // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
+                                    $ruta_imagen = "./img/numeros_mayas/{$convertidor_fecha_larga->getBaktun()}.svg";
+                                    // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
+                                    echo '<img src="' . $ruta_imagen . '" class="img_num">';
+                                }
+                                ?>
+                                <img src="./img/cuenta_larga/Baktun.png" class="img_numeral">
+                            </div>
+                            <div class="cuenta_item">
+                                <?php
+                                // Verificar si $cuenta_larga está definido y no es igual a '0.0'
+                                if (isset($convertidor_fecha_larga)) {
+                                    // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
+                                    $ruta_imagen = "./img/numeros_mayas/{$convertidor_fecha_larga->getKatun()}.svg";
+                                    // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
+                                    echo '<img src="' . $ruta_imagen . '" class="img_num">';
+                                }
+                                ?>
+                                <img src="./img/cuenta_larga/Katun.png" class="img_numeral">
+                            </div>
+                        </div>
+                        <div class="parejas_div">
+                            <div class="cuenta_item">
+                                <?php
+                                // Verificar si $cuenta_larga está definido y no es igual a '0.0'
+                                if (isset($convertidor_fecha_larga)) {
+                                    // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
+                                    $ruta_imagen = "./img/numeros_mayas/{$convertidor_fecha_larga->getTun()}.svg";
+                                    // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
+                                    echo '<img src="' . $ruta_imagen . '" class="img_num">';
+                                }
+                                ?>
+                                <img src="./img/cuenta_larga/Tun.png" class="img_numeral">
+                            </div>
+                            <div class="cuenta_item">
+                                <?php
+                                // Verificar si $cuenta_larga está definido y no es igual a '0.0'
+                                if (isset($convertidor_fecha_larga)) {
+                                    // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
+                                    $ruta_imagen = "./img/numeros_mayas/{$convertidor_fecha_larga->getUinall()}.svg";
+                                    // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
+                                    echo '<img src="' . $ruta_imagen . '" class="img_num">';
+                                }
+                                ?>
+                                <img src="./img/cuenta_larga/Uinal.png" class="img_numeral">
+                            </div>
+                        </div>
+                        <div class="parejas_div">
+                            <div class="cuenta_item">
+                                <?php
+                                // Verificar si $cuenta_larga está definido y no es igual a '0.0'
+                                if (isset($convertidor_fecha_larga)) {
+                                    // Generar la ruta de la imagen SVG basada en el primer valor de cuenta_larga
+                                    $ruta_imagen = "./img/numeros_mayas/{$convertidor_fecha_larga->getKinn()}.svg";
+                                    // Mostrar la imagen solo si el primer valor de cuenta_larga no es '0'
+                                    echo '<img src="' . $ruta_imagen . '" class="img_num">';
+                                }
+                                ?>
+                                <img src="./img/cuenta_larga/Kin.png" class="img_numeral">
+                            </div>
+                        </div>
+                    </div>
 
-        </section>
+                    <div class="cuenta">
+                        <div class="conversion">
+                            <?php
+                            if (isset($convertidor_fecha_larga)) {
+                                echo '<h2>' . $convertidor_fecha_larga->getBaktun() . ' baktún </h2>';
+                                echo '<p>' . $convertidor_fecha_larga->getBaktun() . ' * 144,000 días = ' . $multiplicaciones['batun'] . ' días</p>';
+                            } ?>
+                        </div>
+                        <div class="conversion">
+                            <?php
+                            if (isset($convertidor_fecha_larga)) {
+                                echo '<h2>' . $convertidor_fecha_larga->getKatun() . ' katún </h2>';
+                                echo '<p>' . $convertidor_fecha_larga->getKatun() . ' * 7,200 días = ' . $multiplicaciones['kati'] . ' días</p>';
+                            } ?>
+                        </div>
+                        <div class="conversion">
+                            <?php
+                            if (isset($convertidor_fecha_larga)) {
+                                echo '<h2>' . $convertidor_fecha_larga->getTun() . ' tun </h2>';
+                                echo '<p>' . $convertidor_fecha_larga->getTun() . ' * 360 días = ' . $multiplicaciones['tun'] . ' días</p>';
+                            } ?>
+                        </div>
+                        <div class="conversion">
+                            <?php
+                            if (isset($convertidor_fecha_larga)) {
+                                echo '<h2>' . $convertidor_fecha_larga->getUinall() . ' uinal </h2>';
+                                echo '<p>' . $convertidor_fecha_larga->getUinall() . ' * 20 días = ' . $multiplicaciones['uinall'] . ' días</p>';
+                            } ?>
+                        </div>
+                        <div class="conversion">
+                            <?php
+                            if (isset($convertidor_fecha_larga)) {
+                                echo '<h2>' . $convertidor_fecha_larga->getTun() . ' tun </h2>';
+                                echo '<p>' . $convertidor_fecha_larga->getTun() . ' * 1 día = ' . $multiplicaciones['kinn'] . ' días</p>';
+                            } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="separador"></div>
+        <div class="cuerpo-container" id="larga-fecha">
+            <h1>Cuenta larga a Fecha Gregoriana</h1>
 
 
-        <?php include "blocks/bloquesJs1.html" ?>
+            <form action="#" method="GET" class="formulario-larga-greg">
+                <div class="input-container">
+                    <img src="./img/cuenta_larga/Baktun.png" class="img_numeral">
+                    <p>Baktun</p>
+                    <input type="number" class="form-control" name="baktun" id="baktun">
+                </div>
+                <div class="input-container">
+                    <img src="./img/cuenta_larga/Katun.png" class="img_numeral">
+                    <p>Katun</p>
+                    <input type="number" class="form-control" name="baktun" id="baktun">
+                </div>
+                <div class="input-container">
+                    <img src="./img/cuenta_larga/Tun.png" class="img_numeral">
+                    <p>Tun</p>
+                    <input type="number" class="form-control" name="baktun" id="baktun">
+                </div>
+                <div class="input-container">
+                    <img src="./img/cuenta_larga/Uinal.png" class="img_numeral">
+                    <p>Uinal</p>
+                    <input type="number" class="form-control" name="baktun" id="baktun">
+                </div>
+                <div class="input-container">
+                    <img src="./img/cuenta_larga/Kin.png" class="img_numeral">
+                    <p>K'in</p>
+                    <input type="number" class="form-control" name="baktun" id="baktun">
+                </div>
+                <button type="submit" class="btn btn-get-started"><i class="far fa-clock"></i> Calcular</button>
+            </form>
+
+
+
+            <?php
+            if (isset($convertidor_fecha_larga)) {
+                echo $convertidor_fecha_larga->convertirFechaMayaAGregoriana();
+            } ?>
+        </div>
+
+    </div>
+
+    <?php include "blocks/bloquesJs1.html" ?>
 </body>
 
 </html>
