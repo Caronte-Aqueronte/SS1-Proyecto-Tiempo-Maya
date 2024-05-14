@@ -3,7 +3,14 @@
     transition: 0.5s;
     width: 50%;
 }
-
+.cuenta{
+    font-size: 15px;
+    text-align: left;
+}
+.conversion{
+    display: flex;
+    flex-direction: column;
+}
 #formulario2 {
     background: rgba(220, 226, 232, 0.7);
     transition: 0.5s;

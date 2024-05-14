@@ -1,5 +1,6 @@
 <?php session_start(); ?>
 <?php
+include "./backend/buscar/convertidor_numeros.php";
 $conn = include "conexion/conexion.php";
 
 if (isset($_GET['fecha'])) {
@@ -22,6 +23,12 @@ $tun;
 $uinall;
 $kinn;
 
+$baktunDias;
+$katunDias;
+$tunDias;
+$uinallDias;
+$kinnDias;
+$multiplicaciones;
 
 // Verificar si $cuenta_larga está definido
 if (isset($cuenta_larga)) {
@@ -31,6 +38,10 @@ if (isset($cuenta_larga)) {
     $tun = $desgolce[2];
     $uinall = $desgolce[3];
     $kinn = $desgolce[4];
+    //creamos una instancia del multiplicador
+    $multiplicador = new MultiplicadorConFormato($baktun, $katun, $tun, $uinall, $kinn);
+    //realizar las multiplicaciones
+    $multiplicaciones = $multiplicador->realizarMultiplicaciones();
 }
 ?>
 <!DOCTYPE html>
@@ -165,7 +176,41 @@ if (isset($cuenta_larga)) {
                         </div>
 
                         <div class="cuenta">
-                        
+                            <div class="conversion">
+                                <?php
+                                if (isset($baktun)) {
+                                    echo '<h2>' . $baktun . ' baktún </h2>';
+                                    echo '<p>' . $baktun . ' * 144,000 días = ' . $multiplicaciones['batun'] . ' días</p>';
+                                } ?>
+                            </div>
+                            <div class="conversion">
+                                <?php
+                                if (isset($katun)) {
+                                    echo '<h2>' . $katun . ' katún </h2>';
+                                    echo '<p>' . $katun . ' * 7,200 días = ' . $multiplicaciones['kati'] . ' días</p>';
+                                } ?>
+                            </div>
+                            <div class="conversion">
+                                <?php
+                                if (isset($tun)) {
+                                    echo '<h2>' . $tun . ' tun </h2>';
+                                    echo '<p>' . $tun . ' * 360 días = ' . $multiplicaciones['tun'] . ' días</p>';
+                                } ?>
+                            </div>
+                            <div class="conversion">
+                                <?php
+                                   if (isset($uinall)) {
+                                    echo '<h2>' . $uinall . ' uinal </h2>';
+                                    echo '<p>' . $uinall . ' * 20 días = ' . $multiplicaciones['uinall'] . ' días</p>';
+                                } ?>
+                            </div>
+                            <div class="conversion">
+                                <?php
+                                 if (isset($kinn)) {
+                                    echo '<h2>' . $kinn . ' tun </h2>';
+                                    echo '<p>' . $kinn . ' * 1 día = ' . $multiplicaciones['kinn'] . ' días</p>';
+                                } ?>
+                            </div>
                         </div>
                     </div>
                 </div>
