@@ -206,8 +206,8 @@ if (isset($cuenta_larga)) {
                         <div class="conversion">
                             <?php
                             if (isset($convertidor_fecha_larga)) {
-                                echo '<h2>' . $convertidor_fecha_larga->getTun() . ' tun </h2>';
-                                echo '<p>' . $convertidor_fecha_larga->getTun() . ' * 1 día = ' . $multiplicaciones['kinn'] . ' días</p>';
+                                echo '<h2>' . $convertidor_fecha_larga->getKinn() . ' k\'in </h2>';
+                                echo '<p>' . $convertidor_fecha_larga->getKinn() . ' * 1 día = ' . $multiplicaciones['kinn'] . ' días</p>';
                             } ?>
                         </div>
                     </div>
