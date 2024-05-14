@@ -10,12 +10,13 @@ if (isset($_GET['fecha'])) {
     $fecha_consultar = date("Y-m-d");
 }
 
+
+
 $nahual = include 'backend/buscar/conseguir_nahual_nombre.php';
 $energia = include 'backend/buscar/conseguir_energia_numero.php';
 $haab = include 'backend/buscar/conseguir_uinal_nombre.php';
 $cuenta_larga = include 'backend/buscar/conseguir_fecha_cuenta_larga.php';
 $cholquij = $nahual . " " . strval($energia);
-
 //variables necesarias para obtener las imagenes de los numeros
 $baktun;
 $katun;
@@ -28,6 +29,8 @@ $convertidor_fecha_larga;
 $convertidor_larga_fecha;
 //aqui se guardan las multiplicaciones que se hacen para la primera cuenta larga
 $multiplicaciones;
+//fecha que gregoriana que representa la cuenta larga ingresada
+$fecha_gregoriana;
 
 // Verificar si $cuenta_larga está definido
 if (isset($cuenta_larga)) {
@@ -35,6 +38,26 @@ if (isset($cuenta_larga)) {
     $convertidor_fecha_larga = new MenjadorCuentaLarga($cuenta_larga);
     //realizar las multiplicaciones
     $multiplicaciones = $convertidor_fecha_larga->realizarMultiplicaciones();
+}
+
+// Verifica si se ha enviado el formulario usando el método GET
+if (
+    isset($_GET['baktun']) && isset($_GET['katun'])
+    && isset($_GET['tun']) && isset($_GET['uinal']) && isset($_GET['kin'])
+) {
+    // Obtiene los valores de los campos del formulario
+    $baktun2 = $_GET['baktun'] == '' ? '0' : $_GET['baktun'];
+    $katun2 = $_GET['katun'] == '' ? '0' : $_GET['katun'];
+    $tun2 = $_GET['tun'] == '' ? '0' : $_GET['tun'];
+    $uinal2 = $_GET['uinal'] == '' ? '0' : $_GET['uinal'];
+    $kin2 = $_GET['kin'] == '' ? '0' : $_GET['kin'];
+    // Concatena los valores en un solo parámetro
+    $cuenta_larga_convetir = strval($baktun2) . "." . strval($katun2) . "." . strval($tun2)
+        . "." . strval($uinal2) . "." . strval($kin2);
+    //creamos una instancia de un manejador de cuentas largas
+    $convertidor_larga_fecha = new MenjadorCuentaLarga($cuenta_larga_convetir);
+    //convertimos la cuenta larga en fecha gregoriana
+    $fecha_gregoriana = $convertidor_larga_fecha->convertirFechaMayaAGregoriana();
 }
 ?>
 <!DOCTYPE html>
@@ -63,7 +86,7 @@ if (isset($cuenta_larga)) {
         <div class="parejas-seccion">
             <div id='calculadora'>
                 <h1>Elige una fecha</h1>
-                <form action="#" method="GET">
+                <form action="#calculadora" method="GET">
                     <div class="mb-1">
                         <input type="date" class="form-control" name="fecha" id="fecha"
                             value="<?php echo isset($fecha_consultar) ? $fecha_consultar : ''; ?>">
@@ -217,43 +240,48 @@ if (isset($cuenta_larga)) {
         <div class="separador"></div>
         <div class="cuerpo-container" id="larga-fecha">
             <h1>Cuenta larga a Fecha Gregoriana</h1>
-
-
-            <form action="#" method="GET" class="formulario-larga-greg">
+            <form action="#larga-fecha" method="GET" class="formulario-larga-greg">
                 <div class="input-container">
                     <img src="./img/cuenta_larga/Baktun.png" class="img_numeral">
                     <p>Baktun</p>
-                    <input type="number" class="form-control" name="baktun" id="baktun">
+                    <input type="number" required class="form-control" name="baktun" id="baktun"
+                        value="<?php echo isset($baktun2) ? $baktun2 : ''; ?>">
                 </div>
                 <div class="input-container">
                     <img src="./img/cuenta_larga/Katun.png" class="img_numeral">
                     <p>Katun</p>
-                    <input type="number" class="form-control" name="baktun" id="baktun">
+                    <input type="number" required class="form-control" name="katun" id="katun"
+                        value="<?php echo isset($katun2) ? $katun2 : ''; ?>">
                 </div>
                 <div class="input-container">
                     <img src="./img/cuenta_larga/Tun.png" class="img_numeral">
                     <p>Tun</p>
-                    <input type="number" class="form-control" name="baktun" id="baktun">
+                    <input type="number" required class="form-control" name="tun" id="tun"
+                        value="<?php echo isset($tun2) ? $tun2 : ''; ?>">
                 </div>
                 <div class="input-container">
                     <img src="./img/cuenta_larga/Uinal.png" class="img_numeral">
                     <p>Uinal</p>
-                    <input type="number" class="form-control" name="baktun" id="baktun">
+                    <input type="number" required class="form-control" name="uinal" id="uinal"
+                        value="<?php echo isset($uinal2) ? $uinal2 : ''; ?>">
                 </div>
                 <div class="input-container">
                     <img src="./img/cuenta_larga/Kin.png" class="img_numeral">
                     <p>K'in</p>
-                    <input type="number" class="form-control" name="baktun" id="baktun">
+                    <input type="number" required class="form-control" name="kin" id="kin"
+                        value="<?php echo isset($kin2) ? $kin2 : ''; ?>">
                 </div>
-                <button type="submit" class="btn btn-get-started"><i class="far fa-clock"></i> Calcular</button>
+                <button type="submit" class="btn btn-get-started botones"><i class="far fa-clock"></i> Calcular</button>
             </form>
 
+            <div class="resultado">
+                <?php
+                if (isset($cuenta_larga_convetir)) {
+                    echo "<p>La cuenta larga " . $cuenta_larga_convetir . " corresponde a la fecha gregoriana " . $fecha_gregoriana . "</p>";
+                } ?>
 
+            </div>
 
-            <?php
-            if (isset($convertidor_fecha_larga)) {
-                echo $convertidor_fecha_larga->convertirFechaMayaAGregoriana();
-            } ?>
         </div>
 
     </div>
